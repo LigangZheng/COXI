@@ -1,5 +1,5 @@
 # COXI
-
+Cross-modal Retrieval based on Shared Proxies
 
 ## dataset
 - Pascal Sentence: https://vision.cs.uiuc.edu/pascal-sentences/
