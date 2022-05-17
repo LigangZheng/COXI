@@ -6,3 +6,5 @@ Cross-modal Retrieval based on Shared Proxies. (under review)
 - Wikipedia: http://www.svcl.ucsd.edu/projects/crossmodal/
 - NUS-WIDE_10K: https://lms.comp.nus.edu.sg/wp-content/uploads/2019/research/nuswide/NUS-WIDE.html
 - XMedia: http://59.108.48.34/tiki/XMediaNet/
+
+## visulization 
