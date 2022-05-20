@@ -9,3 +9,8 @@ Cross-modal Retrieval based on Shared Proxies. (under review)
 
 ## visulization 
 [visulization](https://github.com/LigangZheng/COXI/tree/main/visulization)
+
+The visualisation of learned common space for the Wikipedia dataset by using the t-SNE method. The stars are learned shared proxies. Triangles and squares are image and text modalities respectively. Best viewed in color.
+
+<img src="visulization/pic/output_4_0.png" alt="png" style="zoom:50%;" /> <img src="visulization/pic/output_6_0.png" alt="png" style="zoom:50%;" /> <img src="visulization/pic/output_8_0.png" alt="png" style="zoom:50%;" />
+

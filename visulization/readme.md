@@ -35,9 +35,8 @@ for i in range(0, image_co.shape[0]):
 ```
 
 
-​    
-![png](output_4_0.png)
-​    
+![png](pic/output_4_0.png)
+    
 
 
 ### Text samples in the common subspace
@@ -52,8 +51,7 @@ for i in range(image_co.shape[0], image_co.shape[0] +text_co.shape[0]):
 ```
 
 
-​    
-![png](output_6_0.png)
+![png](pic/output_6_0.png)
 ​    
 
 
@@ -78,6 +76,6 @@ for i in range(image_co.shape[0] +text_co.shape[0], all_co.shape[0]):
 
 
 ​    
-![png](output_8_0.png)
+![png](pic/output_8_0.png)
 ​    
 
