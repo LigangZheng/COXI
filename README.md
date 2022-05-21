@@ -1,13 +1,13 @@
 # COXI
 Cross-modal Retrieval based on Shared Proxies. (under review)
 
-## dataset
+## Dataset
 - Pascal Sentence: https://vision.cs.uiuc.edu/pascal-sentences/
 - Wikipedia: http://www.svcl.ucsd.edu/projects/crossmodal/
 - NUS-WIDE_10K: https://lms.comp.nus.edu.sg/wp-content/uploads/2019/research/nuswide/NUS-WIDE.html
 - XMedia: http://59.108.48.34/tiki/XMediaNet/
 
-## visulization 
+## Visulization
 [visulization](https://github.com/LigangZheng/COXI/tree/main/visulization)
 
 ```python
@@ -17,7 +17,7 @@ from sklearn.manifold import TSNE
 from scipy.io import loadmat 
 ```
 
-### Wikipedia
+#### Wikipedia
 
 The visualisation of learned common space for the Wikipedia dataset by using the t-SNE method. The stars are learned shared proxies. Triangles and squares are image and text modalities respectively. Best viewed in color.
 
