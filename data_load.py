@@ -67,14 +67,15 @@ def load_data(args):
         label = loadmat(path + 'labels.wiki.mat')['labels'].squeeze()
 
         train_len = 2173
-        test_len = 462 + train_len
+        test_len = 231 + train_len
+        val_len = test_len + 231
 
         img_train, img_test = image[:train_len].astype('float32'), image[train_len:test_len].astype('float32')
-        img_val = image[test_len:].astype('float32')
+        img_val = image[test_len:val_len].astype('float32')
         text_train, text_test = text[:train_len].astype('float32'), text[train_len:test_len].astype('float32')
-        text_val = text[test_len:].astype('float32')
+        text_val = text[test_len:val_len].astype('float32')
         label_train, label_test= label[:train_len], label[train_len:test_len]
-        label_val = label[test_len:]
+        label_val = label[test_len:val_len]
 
         label_train = np.eye(10)[label_train].astype(int)
         label_test = np.eye(10)[label_test].astype(int)
@@ -111,53 +112,26 @@ def load_data(args):
                 for x in ['train', 'test', 'val']}
 
     elif args.dataset == 'nuswide':
-        path = './data/nuswide/'
-        with open(path + 'img_train_id_feats.pkl', 'rb') as f:
-            train_img_feats = pk.load(f, encoding='latin1')
+        nuswide = loadmat("./data/nuswide/Features.mat")
 
-        with open(path + 'train_id_bow.pkl', 'rb') as f:
-            train_txt_vecs = pk.load(f, encoding='latin1')
-        with open(path + 'train_id_label_map.pkl', 'rb') as f:
-            train_labels = pk.load(f, encoding='latin1')
+        img_train = nuswide['I_tr_CNN'].astype('float32')
+        text_train = nuswide['T_tr_BOW'].astype('float32')
+        label_train = nuswide['trImgCat'].squeeze()
 
-        # load test data
-        with open(path + 'img_test_id_feats.pkl', 'rb') as f:
-            test_img_feats = pk.load(f, encoding='latin1')
-        with open(path + 'test_id_bow.pkl', 'rb') as f:
-            test_txt_vecs = pk.load(f, encoding='latin1')
-        with open(path + 'test_id_label_map.pkl', 'rb') as f:
-            test_labels = pk.load(f, encoding='latin1')
+        img_test = nuswide['I_te_CNN'].astype('float32')
+        text_test = nuswide['T_te_BOW'].astype('float32')
+        label_test = nuswide['teTxtCat'].squeeze()
 
-        with open(path + 'train_ids.pkl', 'rb') as f:
-            train_ids = pk.load(f, encoding='latin1')
-        with open(path + 'test_ids.pkl', 'rb') as f:
-            test_ids = pk.load(f, encoding='latin1')
+        label_train = np.eye(20)[label_train-1].astype(int)
+        label_test = np.eye(20)[label_test-1].astype(int)
 
-        train_img_feats = [train_img_feats[i] for i in train_ids]
-        train_txt_vecs = [train_txt_vecs[i] for i in train_ids]
-        train_labels = [train_labels[i] for i in train_ids]
+        img_val, img_test = img_test[0:4000], img_test[4000:]
+        text_val, text_test = text_test[0:4000], text_test[4000:]
+        label_val, label_test = label_test[0:4000], label_test[4000:]
 
-        test_img_feats = [test_img_feats[i] for i in test_ids]
-        test_txt_vecs = [test_txt_vecs[i] for i in test_ids]
-        test_labels = [test_labels[i] for i in test_ids]
-
-
-        img_train = np.array(train_img_feats).astype('float32')
-        text_train = np.array(train_txt_vecs).astype('float32')
-        label_train = np.array(train_labels).astype('int64')
-
-
-        img_test = np.array(test_img_feats).astype('float32')[0:1000]
-        text_test = np.array(test_txt_vecs).astype('float32')[0:1000]
-        label_test = np.array(test_labels).astype('int64')[0:1000]
-
-        img_val = np.array(test_img_feats).astype('float32')[1000:]
-        text_val = np.array(test_txt_vecs).astype('float32')[1000:]
-        label_val = np.array(test_labels).astype('int64')[1000:]
-
-        imgs = {'train': img_train, 'test': img_test, 'val': img_val}
-        texts = {'train': text_train, 'test': text_test, 'val': text_val}
-        labels = {'train': label_train, 'test': label_test, 'val': label_val}
+        imgs = {'train': img_train, 'test': img_test, 'val': img_test}
+        texts = {'train': text_train, 'test': text_test, 'val': text_test}
+        labels = {'train': label_train, 'test': label_test, 'val': label_test}
         dataset = {x: CustomDataSet(images=imgs[x], texts=texts[x], labels=labels[x])
                 for x in ['train', 'test', 'val']}
 

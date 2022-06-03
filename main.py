@@ -5,6 +5,8 @@ import random
 import numpy
 import torch
 import torch.optim as optim
+import yaml
+from easydict import EasyDict
 from tensorboardX import SummaryWriter
 
 from model import IDCM_NN
@@ -16,14 +18,15 @@ from data_load import load_data
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='xmedia', help='pascal, wiki, nuswide, xmedia')
+    # parser.add_argument('--params', dest='params', default='parameter/wiki.yaml')
+    parser.add_argument('--dataset', type=str, default='wiki', help='pascal, wiki, nuswide, xmedia')
     # loss 
     parser.add_argument('--loss_type', type=str, default='CMSP_out', help='CMSP_out')
     parser.add_argument('--n_view', type=int, default=2)
     parser.add_argument('--alpha_p', type=float, default=1)
     parser.add_argument('--alpha_d', type=float, default=1)  
     parser.add_argument('--alpha_m', type=float, default=1) 
-    parser.add_argument('--margin', type=float, default=1)
+    parser.add_argument('--margin', type=float, default=0.1)
     # opt
     parser.add_argument('--lr', type=float, default=1e-4)
     parser.add_argument('--loss_lr', type=float, default=1e-4)
@@ -32,11 +35,16 @@ if __name__ == '__main__':
     parser.add_argument('--epoch', type=int, default=200)
     parser.add_argument('--dropout', type=float, default=0)
     parser.add_argument('--eb_size', type=int, default=512)
-    parser.add_argument('--seed', type=int, default=6)
-    parser.add_argument('--exam_name', type=str, default='mrg0.5')
-
+    parser.add_argument('--exam_name', type=str, default='wiki')
     args = parser.parse_args()
-    seed = args.seed
+    # arg = parser.parse_args()
+
+    # with open(arg.params) as f:
+    #     params = yaml.load(f, Loader=yaml.FullLoader)
+    
+    # args = EasyDict(params)
+
+    seed = 9
     random.seed(seed)
     numpy.random.seed(seed)
     os.environ['PYTHONHASHSEED'] = str(seed)
@@ -53,7 +61,7 @@ if __name__ == '__main__':
     parameter = 'dataset={}, loss_type={},\n alpha_p={}, alpha_d={}, alpha_m={}, margin={}\n loss_lr={}, batch_size={},  eb_size={}, seed={}, ' \
                 'epoch={}, lr={}, dropout={}\n'.format(args.dataset, args.loss_type, str(args.alpha_p), str(args.alpha_d), str(args.alpha_m),
                                          str(args.margin), str(args.loss_lr), str(args.batch_size), str(args.eb_size),
-                                           str(args.seed), str(args.epoch), str(args.lr), str(args.dropout))
+                                           str(seed), str(args.epoch), str(args.lr), str(args.dropout))
     log.write(parameter)
     print('...Data loading is beginning...')
     data_loader, input_data_par = load_data(args=args)

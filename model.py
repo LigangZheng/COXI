@@ -26,14 +26,14 @@ class ImgNN(nn.Module):
         self.denseL1 = nn.Linear(input_dim, mid_num)
         self.denseL2 = nn.Linear(mid_num, mid_num)
         self.denseL3 = nn.Linear(mid_num, output_dim)
-        self.linear = nn.Linear(input_dim, output_dim)
+        # self.linear = nn.Linear(input_dim, output_dim)
         self.dropout = nn.Dropout(p=dropout)
         
     def forward(self, x):
-        out = self.dropout(F.relu(self.linear(x)))
-        # out = self.dropout(F.relu(self.denseL1(x)))
-        # out = self.dropout(F.relu(self.denseL2(out)))
-        # out = self.denseL3(F.relu(out))
+        # out = self.dropout(F.relu(self.linear(x)))
+        out = self.dropout(F.relu(self.denseL1(x)))
+        out = self.dropout(F.relu(self.denseL2(out)))
+        out = self.denseL3(F.relu(out))
 
         # out1 = self.linear(F.relu((out)))
         # norm_x = torch.norm(out, dim=1, keepdim=True)
@@ -48,14 +48,14 @@ class TextNN(nn.Module):
         self.denseL1 = nn.Linear(input_dim, mid_num)
         self.denseL2 = nn.Linear(mid_num, mid_num)
         self.denseL3 = nn.Linear(mid_num, output_dim)
-        self.linear = nn.Linear(input_dim, output_dim)
+        # self.linear = nn.Linear(input_dim, output_dim)
         self.dropout = nn.Dropout(p=dropout)
 
     def forward(self, x):
-        out = self.dropout(F.relu(self.linear(x)))
-        # out = self.dropout(F.relu(self.denseL1(x)))
-        # out = self.dropout(F.relu(self.denseL2(out)))
-        # out = self.denseL3(F.relu(out))
+        # out = self.dropout(F.relu(self.linear(x)))
+        out = self.dropout(F.relu(self.denseL1(x)))
+        out = self.dropout(F.relu(self.denseL2(out)))
+        out = self.denseL3(F.relu(out))
         # out1 = self.linear(F.relu((out)))
         # norm_x = torch.norm(out, dim=1, keepdim=True)
         # out = out / norm_x
@@ -63,14 +63,13 @@ class TextNN(nn.Module):
 
 
 class IDCM_NN(nn.Module):
-    def __init__(self, dropout, img_input_dim=4096, img_output_dim=2048,
-                 text_input_dim=2048, text_output_dim=2048, feat_dim=512, pre_dim=10):
+    def __init__(self, dropout, img_input_dim=4096, img_output_dim=1024,
+                 text_input_dim=1024, text_output_dim=1024, feat_dim=512, pre_dim=10):
         super(IDCM_NN, self).__init__()
         self.img_net = ImgNN(dropout, img_input_dim, img_output_dim, pre_dim)
         self.text_net = TextNN(dropout, text_input_dim, text_output_dim)
         self.dropout = nn.Dropout(p=dropout)
-        self.linearLayer = nn.Linear(img_output_dim, 1024)
-        self.linearLayer1 = nn.Linear(1024, feat_dim)
+        self.linearLayer = nn.Linear(img_output_dim, feat_dim)
         self.linearLayer2 = nn.Linear(feat_dim, pre_dim)
         self.relu = nn.ReLU()
 
@@ -78,11 +77,10 @@ class IDCM_NN(nn.Module):
         view1_feature = self.img_net(img)
         view2_feature = self.text_net(text)
 
+        # view1_feature = self.linearLayer(view1_feature)
+        # view2_feature = self.linearLayer(view2_feature)
         view1_feature = self.dropout(self.linearLayer(view1_feature))
         view2_feature = self.dropout(self.linearLayer(view2_feature))
-
-        view1_feature = self.dropout(self.linearLayer1(F.relu(view1_feature)))
-        view2_feature = self.dropout(self.linearLayer1(F.relu(view2_feature)))
 
         view1_predict1 = self.linearLayer2(view1_feature)
         view2_predict2 = self.linearLayer2(view2_feature)

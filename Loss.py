@@ -47,8 +47,8 @@ class CMSP_out(torch.nn.Module):
         label_all = binarize_and_smooth_labels(label_all, len(proxies), self.smoothing_const)
         p_loss = torch.sum(-label_all * F.log_softmax(-D_, 1), -1).mean()
         # p_loss = p_loss.mean()
-        d_loss = 0.5 * self.cross_entropy(predict_1, torch.argmax(label_1, -1)) + \
-                 0.5 * self.cross_entropy(predict_2, torch.argmax(label_2, -1))
+        d_loss = self.cross_entropy(predict_1, torch.argmax(label_1, -1)) + \
+                 self.cross_entropy(predict_2, torch.argmax(label_2, -1))
         # d_loss = ((predict_1 - label_1.float()) ** 2).sum(1).sqrt().mean() + (
         #             (predict_2 - label_2.float()) ** 2).sum(1).sqrt().mean()
         # m_loss = F.mse_loss(feature_1, feature_2)
