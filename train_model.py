@@ -87,9 +87,8 @@ def train_model(model, data_loaders, optimizer, log, metric_loss, optimizer_loss
                 
                 img2text = fx_calc_map_label(t_imgs, t_txts, t_labels)
                 txt2img = fx_calc_map_label(t_txts, t_imgs, t_labels)
-                print('{} Loss: {:.4f} Img2Txt: {:.4f}  Txt2Img: {:.4f}'.format(phase, epoch_loss, img2text, txt2img))
-                log.write('{} Loss: {:.4f} Img2Txt: {:.4f}  Txt2Img: {:.4f}'.format(phase, epoch_loss, img2text,
-                                                                                    txt2img) + '\n')
+                print('{} epoch Loss = {}'.format(phase, epoch_loss))
+                log.write('{} epoch Loss = {}\n'.format(phase, epoch_loss))
                 writer.add_scalar('loss/' + phase, epoch_loss, epoch)
                 writer.add_scalar('acc/' + phase + '_img2txt', img2text, epoch)
                 writer.add_scalar('acc/' + phase + '_txt2img', txt2img, epoch)
@@ -134,8 +133,6 @@ def train_model(model, data_loaders, optimizer, log, metric_loss, optimizer_loss
     time_elapsed = time.time() - since
     print('Training complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
     log.write('Training complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60) + '\n')
-    print('Best average ACC: {:4f}'.format(best_acc))
-    log.write('Best average ACC: {:4f}'.format(best_acc) + '\n')
 
     # load best model weights
     model.load_state_dict(best_model_wts)

@@ -61,29 +61,29 @@ def load_data(args):
                 for x in ['train', 'test', 'val']}
 
     elif args.dataset == 'wiki':
-        path = './data/wiki/'
-        image = loadmat(path + 'images.vgg19.mat')['images']
-        text = loadmat(path + 'texts.wiki.doc2vec.300.mat')['texts']
-        label = loadmat(path + 'labels.wiki.mat')['labels'].squeeze()
+        path = './data/wiki/' 
+        image =loadmat(path + 'images.mat')['images']
+        text = loadmat(path + 'texts.mat')['texts']
+        label = loadmat(path + 'labels.mat')['labels'].squeeze()
 
         train_len = 2173
-        test_len = 231 + train_len
-        val_len = test_len + 231
+        test_len = 462 + train_len
+        # val_len = test_len + 231
 
         img_train, img_test = image[:train_len].astype('float32'), image[train_len:test_len].astype('float32')
-        img_val = image[test_len:val_len].astype('float32')
+        img_val = image[test_len:].astype('float32')
         text_train, text_test = text[:train_len].astype('float32'), text[train_len:test_len].astype('float32')
-        text_val = text[test_len:val_len].astype('float32')
+        text_val = text[test_len:].astype('float32')
         label_train, label_test= label[:train_len], label[train_len:test_len]
-        label_val = label[test_len:val_len]
+        label_val = label[test_len:]
 
         label_train = np.eye(10)[label_train].astype(int)
         label_test = np.eye(10)[label_test].astype(int)
         label_val = np.eye(10)[label_val].astype(int)
 
-        imgs = {'train': img_train, 'test': img_test, 'val': img_test}
-        texts = {'train': text_train, 'test': text_test, 'val': text_test}
-        labels = {'train': label_train, 'test': label_test, 'val': label_test}
+        imgs = {'train': img_train, 'test': img_test, 'val': img_val}
+        texts = {'train': text_train, 'test': text_test, 'val': text_val}
+        labels = {'train': label_train, 'test': label_test, 'val': label_val}
         dataset = {x: CustomDataSet(images=imgs[x], texts=texts[x], labels=labels[x])
                 for x in ['train', 'test', 'val']}
     

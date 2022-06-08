@@ -37,14 +37,14 @@ For the PKU XMedia dataset, we use the image and text features provided by [XMed
 
 As for the Pascal Sentence, Wikipedia and NUS-WIDE-10K datasets, we use a 4096-demensional vector extracted by the fc7 layer of VGG-19 to represent each image. For text modality, we use 1000-dimentional bag-of-words (BoW) and 300-dimentional Word2Vec model to extact feature vectors.
 
-We provide the Wikipedia features and lists we used as an example, which can be download from the [here](https://drive.google.com/file/d/1iAV8kMz5GSboYtnf1Yd7e7girmn6nGvo/view?usp=sharing).
+We provide the Wikipedia features and lists we used as an example, which can be download from the [here](https://drive.google.com/file/d/1Kf-ew-XHx-48upMBtG6JgnCbkApMibD0/view?usp=sharingAll).
 
-All the feature data and list files should be put in ./COXI/data.
+ the feature data and list files should be put in ./COXI/data.
 
 ### Run COXI
 
 ```python
-python main.py --dataset wiki --loss_type CMSP_out --alpha_p 1 --alpha_d 1 --alpha_m 1 --margin 0.1 --exam_name wikipedia
+python main.py --params parameter/wiki.yaml
 ```
 
 ## visulization 
