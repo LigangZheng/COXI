@@ -1,0 +1,20 @@
+dataset: wiki
+loss_type: CMSP_out
+
+n_view: 2
+
+alpha_p: 1
+alpha_d: 1
+alpha_m: 1
+margin: 0.1
+loss_lr: 0.0001
+
+lr: 0.0001
+
+batch_size: 128
+epoch: 200
+dropout: 0.1
+
+eb_size: 512
+seed: 666
+exam_name: wiki

@@ -1,0 +1,10 @@
+easydict==1.9
+h5py
+keras==2.8.0
+numpy
+PyYAML==6.0
+scikit-learn==1.0.2
+tensorboardX==2.4.1
+torch==1.10.1
+torchvision==0.11.2
+tqdm
