@@ -121,3 +121,7 @@ for i in range(image_co.shape[0] +text_co.shape[0], all_co.shape[0]):
 ​    
 ![png](visulization/pic/output_8_0.png)
 ​    
+
+The network architecture is divided into three parts. Both the image and text branches use two independent fully connected layers to convert the features of the image modality into a 2048-dimensional feature. Subsequently, a common space feature is generated through three layers of fully connected layers with shared weights.
+In the experiments of this paper, the batch size is set to 128, and the dimension of the common space is set to 512. Model parameters are optimized using the Adam optimizer, with a learning rate of 1e-4. As for the cross-modal shared proxy loss, parameters are optimized using the SGD optimizer, with a learning rate of 1e-4.
+For the Wikipedia dataset, are all set to 1, and the margin is set to 0.5. On the Pascal Sentence dataset, are all set to 1, and the margin is set to 0.2. On the NUS-WIDE-10k dataset, are set to 1, 0.1, 0.1, and the margin is set to 0.1. Finally, on the PKU XMedia and MS COCO datasets, are set to 1, 0.1, 0.01, and the margin is set to 0.5.
